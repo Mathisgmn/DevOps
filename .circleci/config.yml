@@ -25,9 +25,8 @@ jobs:
   # Stage: Tests
   unit_tests:
     executor: node/default
-    steps:
-      - checkout
-      - run: echo "Running unit tests..."
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: ./test-results/
   
   integration_tests:
     executor: node/default
