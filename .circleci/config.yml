@@ -134,7 +134,7 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      # Stage: Build
+      #Build
       - build_dependancies
       - build_linter
       - build_packaging:
@@ -145,9 +145,38 @@ workflows:
             - build_dependancies
             - build_linter
             - build_packaging
+      #Tests
       - unit_tests:
+        requires:
+          - build_validation
+      - integration_tests:
           requires:
             - build_validation
+      - regression_tests:
+          requires:
+            - build_validation
+      - performance_tests:
+          requires:
+            - build_validation
+      - security_tests:
+          requires:
+            - build_validation
+      - compatibility_tests:
+          requires:
+            - build_validation
+      - accessibility_tests:
+          requires:
+            - build_validation
+      - tests_validation:
+          requires:
+            - unit_tests
+            - integration_tests
+            - regression_tests
+            - performance_tests
+            - security_tests
+            - compatibility_tests
+            - accessibility_tests
+      #Deploy
 
 
 
