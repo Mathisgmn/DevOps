@@ -147,8 +147,8 @@ workflows:
             - build_packaging
       #Tests
       - unit_tests:
-        requires:
-          - build_validation
+          requires:
+            - build_validation
       - integration_tests:
           requires:
             - build_validation
