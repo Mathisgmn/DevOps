@@ -9,25 +9,25 @@ jobs:
     steps:
       - checkout
       - run: echo "Installing dependencies..."
-  
+
   build_linter:
     executor: node/default
     steps:
       - checkout
       - run: echo "Running linters..."
-  
+
   build_packaging:
     executor: node/default
     steps:
       - checkout
       - run: echo "Cleaning and Packaging..."
-  
+
   build_validation:
     executor: node/default
     steps:
       - checkout
       - run: echo "Build step is all good"
-  
+
   # Stage: Tests
   unit_tests:
     executor: node/default
@@ -44,37 +44,37 @@ jobs:
           command: npm run test:ci
       - store_test_results:
           path: ./test-results/
-  
+
   integration_tests:
     executor: node/default
     steps:
       - checkout
       - run: echo "Running integration tests..."
-  
+
   regression_tests:
     executor: node/default
     steps:
       - checkout
       - run: echo "Running regression tests..."
-  
+
   performance_tests:
     executor: node/default
     steps:
       - checkout
       - run: echo "Running performance tests..."
-  
+
   security_tests:
     executor: node/default
     steps:
       - checkout
       - run: echo "Running security tests..."
-  
+
   compatibility_tests:
     executor: node/default
     steps:
       - checkout
       - run: echo "Running compatibility tests..."
-  
+
   accessibility_tests:
     executor: node/default
     steps:
@@ -86,6 +86,7 @@ jobs:
     steps:
       - checkout
       - run: echo "Tests step is all good"
+
   # Stage: Deploy
   prepare_deployment:
     executor: node/default
@@ -135,12 +136,11 @@ jobs:
       - checkout
       - run: echo "Monitoring and following up deployment..."
 
-
 workflows:
   version: 2
   build_and_test:
     jobs:
-      #Build
+      # Build
       - build_dependancies
       - build_linter
       - build_packaging:
@@ -151,7 +151,7 @@ workflows:
             - build_dependancies
             - build_linter
             - build_packaging
-      #Tests
+      # Tests
       - unit_tests:
           requires:
             - build_validation
@@ -182,11 +182,10 @@ workflows:
             - security_tests
             - compatibility_tests
             - accessibility_tests
-      #Deploy
-
+      # Deploy
       - prepare_deployment:
-        requires:
-          - tests_validation
+          requires:
+            - tests_validation
       - verify_tests:
           requires:
             - deploy_dev
