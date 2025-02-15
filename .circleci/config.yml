@@ -80,6 +80,12 @@ jobs:
     steps:
       - checkout
       - run: echo "Running accessibility tests..."
+
+  tests_validation:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Tests step is all good"
   # Stage: Deploy
   prepare_deployment:
     executor: node/default
