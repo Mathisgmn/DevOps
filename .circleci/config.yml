@@ -27,6 +27,17 @@ jobs:
     executor: node/default
     environment:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: npm install jest-junit
+      - run:
+          name: Run tests
+          command: npm run test:ci
+      - store_test_results:
+          path: ./test-results/
   
   integration_tests:
     executor: node/default
