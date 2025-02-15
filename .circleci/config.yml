@@ -22,6 +22,12 @@ jobs:
       - checkout
       - run: echo "Cleaning and Packaging..."
   
+  build_validation:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Build step is all good"
+  
   # Stage: Tests
   unit_tests:
     executor: node/default
@@ -74,19 +80,84 @@ jobs:
     steps:
       - checkout
       - run: echo "Running accessibility tests..."
+  # Stage: Deploy
+  prepare_deployment:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Preparing deployment environment..."
+
+  deploy_dev:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to development environment..."
+
+  deploy_release:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to release environment..."
+
+  deploy_prod:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Deploying to production environment..."
+
+  verify_tests:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Running verification tests..."
+
+  functional_validation:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Running functional validation tests..."
+
+  load_testing:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Running load tests..."
+
+  monitor_and_follow_up:
+    executor: node/default
+    steps:
+      - checkout
+      - run: echo "Monitoring and following up deployment..."
+
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - unit_tests
+      # Stage: Build
+      - build_dependancies
+      - build_linter
+      - build_packaging:
+          requires:
+            - build_dependancies
+      - build_validation:
+          requires:
+            - build_dependancies
+            - build_linter
+            - build_packaging
+      - unit_tests:
+          requires:
+            - build_validation
+
+
+
       # - deploy_dev:
-      #     requires:
-      #       - unit_tests
-      #     filters:
-      #       branches:
-      #         only:
-      #           - develop
+      #   requires:
+      #     - unit_tests
+      #   filters:
+      #     branches:
+      #       only:
+      #         - develop
 
       # - deploy_prod:
       #     requires:
