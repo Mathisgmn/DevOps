@@ -70,18 +70,18 @@ workflows:
   build_and_test:
     jobs:
       - unit_tests
-      - deploy_dev:
-          requires:
-            - unit_tests
-          filters:
-            branches:
-              only:
-                - develop
+      # - deploy_dev:
+      #     requires:
+      #       - unit_tests
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop
 
-      - deploy_prod:
-          requires:
-            - unit_tests
-          filters:
-            branches:
-              only:
-                - main
+      # - deploy_prod:
+      #     requires:
+      #       - unit_tests
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
