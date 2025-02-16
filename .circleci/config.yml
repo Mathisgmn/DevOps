@@ -186,35 +186,15 @@ workflows:
       - prepare_deployment:
           requires:
             - tests_validation
-          filters:
-            branches:
-              ignore:
-                - /^hotfix\/.*/
-                - /^feature\/.*/
       - verify_tests:
           requires:
             - tests_validation
-          filters:
-            branches:
-              ignore:
-                - /^hotfix\/.*/
-                - /^feature\/.*/
       - functional_validation:
           requires:
             - tests_validation
-          filters:
-            branches:
-              ignore:
-                - /^hotfix\/.*/
-                - /^feature\/.*/
       - load_testing:
           requires:
             - tests_validation
-          filters:
-            branches:
-              ignore:
-                - /^hotfix\/.*/
-                - /^feature\/.*/
       - deploy_dev:
           requires:
             - tests_validation
@@ -263,10 +243,3 @@ workflows:
             - deploy_dev
             - deploy_release
             - deploy_prod
-          filters:
-            branches:
-              ignore:
-                - /^hotfix\/.*/
-                - /^feature\/.*/
-
-#test         
