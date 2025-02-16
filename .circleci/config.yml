@@ -188,36 +188,49 @@ workflows:
             - tests_validation
       - verify_tests:
           requires:
-            - deploy_dev
-            - deploy_release
-            - deploy_prod
+            - tests_validation
       - functional_validation:
           requires:
-            - verify_tests
+            - tests_validation
       - load_testing:
           requires:
-            - functional_validation
+            - tests_validation
       - deploy_dev:
           requires:
+            - tests_validation
             - prepare_deployment
+            - verify_tests
+            - functional_validation
+            - load_testing
           filters:
             branches:
               only:
                 - develop
       - deploy_release:
           requires:
+            - tests_validation
             - prepare_deployment
+            - verify_tests
+            - functional_validation
+            - load_testing
           filters:
             branches:
               only:
                 - /^release\/.*/
       - deploy_prod:
           requires:
+            - tests_validation
             - prepare_deployment
+            - verify_tests
+            - functional_validation
+            - load_testing
           filters:
             branches:
               only:
                 - main
       - monitor_and_follow_up:
           requires:
-            - load_testing
+            - tests_validation
+            - deploy_dev
+            - deploy_release
+            - deploy_prod
