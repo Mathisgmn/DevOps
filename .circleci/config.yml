@@ -206,6 +206,9 @@ workflows:
             branches:
               only:
                 - develop
+              ignore:
+                - /^hotfix\/.*/
+                - /^feature\/.*/
       - deploy_release:
           requires:
             - tests_validation
@@ -217,6 +220,9 @@ workflows:
             branches:
               only:
                 - /^release\/.*/
+              ignore:
+                - /^hotfix\/.*/
+                - /^feature\/.*/
       - deploy_prod:
           requires:
             - tests_validation
@@ -228,6 +234,9 @@ workflows:
             branches:
               only:
                 - main
+              ignore:
+                - /^hotfix\/.*/
+                - /^feature\/.*/
       - monitor_and_follow_up:
           requires:
             - tests_validation
